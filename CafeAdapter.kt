@@ -1,35 +1,31 @@
-package com.example.lab_week_04 // Or the correct package for your adapter
+package com.example.lab_week_04
 
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.lab_week_04.R
+import android.content.Context
 
-// Define TABS_FIXED if it's not already defined elsewhere
-// For example, in your CafeFragment or a constants file
-private val TABS_FIXED = arrayOf(
-    R.string.tab_text_1, // Replace with your actual string resources
-    R.string.tab_text_2
-    // Add more tabs as needed
+val TABS_FIXED = listOf(
+    R.string.starbucks_title,
+    R.string.janjijiwa_title,
+    R.string.kopikenangan_title,
 )
 
-
-class CafeAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(fragmentManager, lifecycle) {
-
+class CafeAdapter (fragmentManager: FragmentManager, lifecycle: Lifecycle, private val context: Context) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return TABS_FIXED.size // Or the number of tabs you have
+        return TABS_FIXED.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        // Return the fragment for each tab position
-        // Example:
-        return when (position) {
-            0 -> DrinksFragment() // Replace with your actual fragment
-            1 -> FoodFragment()   // Replace with your actual fragment
-            // Add more cases as needed
-            else -> throw IllegalArgumentException("Invalid position: $position")
+        val content = when (position) {
+            0 -> R.string.starbucks_desc
+            1 -> R.string.janjijiwa_desc
+            2 -> R.string.kopikenangan_desc
+            else -> 0
         }
+        return CafeDetailFragment.newInstance(context.getString(content))
     }
 }
-    
